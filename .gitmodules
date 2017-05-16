@@ -1,0 +1,3 @@
+[submodule "src/terminal"]
+	path = src/terminal
+	url = https://github.com/rmallick6806/react-bash
