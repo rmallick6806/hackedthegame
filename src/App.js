@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // console.log(SnakePit);
+    require('./snakePit/js/snakePit.js');
   }
 
   render() {

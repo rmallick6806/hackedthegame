@@ -10,8 +10,8 @@ const p2Btn = document.getElementById('p2');
 const canvas = document.getElementById('snakePit');
 const ctx = canvas.getContext("2d");
 
-canvas.height = 780;
-canvas.width = 780;
+canvas.height = 400;
+canvas.width = 400;
 
 
 export const SnakePit = {};
@@ -44,7 +44,7 @@ SnakePit.game = function() {
     y: 50,
     speed: 5
   });
-  this.snakes.push(snake1, snake2);
+  this.snakes.push(snake1);
   let food = new Food(canvas, board);
 
   function init() {
@@ -54,7 +54,6 @@ SnakePit.game = function() {
     });
     food.place();
     gameLoopP1();
-    gameLoopP2();
     renderLoop();
   }
 
