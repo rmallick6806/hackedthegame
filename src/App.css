@@ -5,3 +5,9 @@ body {
 input:focus {
   outline: none;
 }
+
+canvas {
+	margin: 0 auto;
+	display: block;
+	border: 1px solid green;
+}
