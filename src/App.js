@@ -4,7 +4,7 @@ import Terminal from './terminal/src';
 import Bash from './terminal/src/bash.js';
 import * as UpdatedCommands from './terminal/src/updatedCommands.js';
 import * as OldCommands from './terminal/src/commands.js';
-import * as SnakePit from './snakePit/js/snakePit.js';
+// import * as SnakePit from './snakePit/js/snakePit.js';
 
 class App extends Component {
   constructor() {
@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log(SnakePit);
+    // console.log(SnakePit);
   }
 
   render() {
@@ -28,7 +28,7 @@ class App extends Component {
       { value: 'type `help` to see commands.'},
     ];
 
-    let children = <canvas id='snakePit'></canvas>;
+    let children = <canvas id='snakePit' height={400} width={400}></canvas>;
     // let children = null;
 
     return (
