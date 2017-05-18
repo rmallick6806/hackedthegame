@@ -10,8 +10,8 @@ const p2Btn = document.getElementById('p2');
 const canvas = document.getElementById('snakePit');
 const ctx = canvas.getContext("2d");
 
-canvas.height = 400;
-canvas.width = 400;
+canvas.height = 350;
+canvas.width = 350;
 
 
 export const SnakePit = {};
@@ -35,7 +35,7 @@ SnakePit.game = function() {
   // entities
   let board = new Board();
   let snake1 = new Snake({
-    x: 20,
+    x: 5,
     y: 20,
     speed: 5
   });
@@ -45,20 +45,21 @@ SnakePit.game = function() {
     speed: 5
   });
   this.snakes.push(snake1);
-  let food = new Food(canvas, board);
+  this.food = new Food(canvas, board);
 
   function init() {
+    clearTimeout(game.timeout);
     bindEvents();
     _.forEach(game.snakes, (snake, index) => {
       snake.init();
     });
-    food.place();
+    game.food.place();
     gameLoopP1();
     renderLoop();
   }
 
   function update(snake) {
-    snake.advance(food);
+    snake.advance(game.food);
     snake.checkCollision(canvas, board, game);
     snake.checkSelfCollision(game);
     resetPressed();
@@ -76,8 +77,18 @@ SnakePit.game = function() {
 
       if (direction) {
         game.pressed[direction] = true;
-      } else if (key === 32) {
-        game.running = false;
+      } else if (key === 32 && !game.running) {
+        // Resets the game
+        game.running = true;
+        game.snakes = [];
+        snake1 = new Snake({
+          x: 5,
+          y: 20,
+          speed: 5
+        });
+        game.snakes.push(snake1);
+        clearTimeout(game.timeout);
+        init();
       }
     });
   }
@@ -108,7 +119,7 @@ SnakePit.game = function() {
     lag += delta;
 
     while (lag >= MS_PER_UPDATE) {
-      render(canvas, ctx, game.snakes, food, 10);
+      render(canvas, ctx, game.snakes, game.food, 10);
       lag -= MS_PER_UPDATE
     }
   }
@@ -116,20 +127,10 @@ SnakePit.game = function() {
   function gameLoopP1() {
     if (!game.running) return;
     let snake = game.snakes[0]
-    setTimeout(() => {
+    game.timeout = setTimeout(() => {
       requestAnimationFrame(gameLoopP1);
     }, 1000 / snake.speed);
     processInput(snake, 0);
-    update(snake);
-  }
-
-  function gameLoopP2() {
-    if (!game.running) return;
-    let snake = game.snakes[1]
-    setTimeout(() => {
-      requestAnimationFrame(gameLoopP2);
-    }, 1000 / snake.speed);
-    processInput(snake, 1);
     update(snake);
   }
 

@@ -9,7 +9,7 @@ module.exports = function Snake(options) {
     y: options.y
   };
   this.segmentSize = 10;
-  this.speed = options.speed;
+  this.speed = 5;
   this.length = 5;
   this.segments = new FastList;
   this.direction = 'RIGHT';
