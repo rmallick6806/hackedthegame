@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Terminal from '../terminal/src';
+import SnakePit from '../snakePit/js/snakePit2.js';
 
 class SnakePitWrapper extends Component {
   constructor() {
@@ -7,7 +8,8 @@ class SnakePitWrapper extends Component {
   }
 
   componentDidMount() {
-    require('../snakePit/js/snakePit.js');
+    let snakepit = new SnakePit();
+    snakepit.init();
   }
 
   render() {

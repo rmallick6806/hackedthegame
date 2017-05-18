@@ -22,8 +22,8 @@ class SnakePit {
     this.ctx = this.canvas.getContext("2d");
 
     // game configuration
-    this.canvas.height = 400;
-    this.canvas.width = 400;
+    this.canvas.height = 350;
+    this.canvas.width = 350;
     this.running = true;
     this.snakes = [];
     this.pressed = {
@@ -39,7 +39,7 @@ class SnakePit {
     // entities
     this.board = new Board();
     let snake1 = new Snake({
-      x: 20,
+      x: 10,
       y: 20,
       speed: 5
     });
@@ -57,12 +57,12 @@ class SnakePit {
   }
 
   init() {
+    clearTimeout(this.timeout);
     this.bindEvents();
     _.forEach(this.snakes, (snake, index) => {snake.init()});
     this.food.place();
     this.gameLoopP1();
     this.renderLoop();
-    console.log('is this running');
   }
 
   bindEvents() {
@@ -72,8 +72,18 @@ class SnakePit {
 
       if (direction) {
         this.pressed[direction] = true;
-      } else if (key === 32) {
-        this.running = false;
+      } else if (key === 32 && !this.running) {
+        // Resets the game
+        this.running = true;
+        this.snakes = [];
+        this.snake1 = new Snake({
+          x: 5,
+          y: 20,
+          speed: 5
+        });
+        this.snakes.push(this.snake1);
+        clearTimeout(this.timeout);
+        this.init();
       }
     });
   }
@@ -115,17 +125,13 @@ class SnakePit {
     this.then = this.now;
 
     this.lag += delta;
-
-    while (this.lag >= this.MS_PER_UPDATE) {
-      this.render(this.canvas, this.ctx, this.snakes, this.food, 10);
-      this.lag -= this.MS_PER_UPDATE
-    }
+    this.render(this.canvas, this.ctx, this.snakes, this.food, 10);
   }
 
   gameLoopP1() {
     if (!this.running) return;
     let snake = this.snakes[0]
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       requestAnimationFrame(this.gameLoopP1);
     }, 1000 / snake.speed);
     this.processInput(snake, 0);

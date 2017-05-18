@@ -9,12 +9,15 @@ import SnakePitWrapper from './components/snakePitWrapper.js';
 class App extends Component {
   constructor() {
     super();
-    this.updateCommandsBatch = this.updateCommandsBatch.bind(this);
     this.state = {};
+    this.timer = null;
 
     const parentCommands = {
       runSnakePit: () => {
-        return this.setState({runSnakePit: true});
+        clearTimeout(this.timer);
+        this.timer = null;
+        this.timer = setTimeout(() => this.firstHack(), 5000);
+        this.setState({runSnakePit: true});
       }
     };
     this.bash = new Bash({}, parentCommands);
@@ -22,6 +25,23 @@ class App extends Component {
 
   updateCommandsBatch(commands) {
     this.bash.updateCommandsBatch({}, commands);
+  }
+
+  firstHack() {
+    this.setState({
+      runSnakePit: false,
+      history: this.state.history.concat({value: 'Game ran out of memory...'})
+    });
+    clearTimeout(this.timer);
+    this.timer = null;
+  }
+
+  componentDidUpdate() {
+    if (!this.state.runSnakePit) {
+      this.timer = null;
+      clearTimeout(this.timer);
+      console.log(this.timer);
+    }
   }
 
   componentDidMount() {
