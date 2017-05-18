@@ -16,7 +16,7 @@ class App extends Component {
       runSnakePit: () => {
         clearTimeout(this.timer);
         this.timer = null;
-        this.timer = setTimeout(() => this.firstHack(), 5000);
+        this.timer = setTimeout(() => this.firstHack(), 15000);
         this.setState({runSnakePit: true});
       }
     };
