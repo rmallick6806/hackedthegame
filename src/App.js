@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import './App.css';
 import Terminal from './terminal/src';
 import Bash from './terminal/src/bash.js';
 import * as UpdatedCommands from './terminal/src/updatedCommands.js';
 import * as OldCommands from './terminal/src/commands.js';
 import SnakePitWrapper from './components/snakePitWrapper.js';
+import { addHistory, updateState } from './actions';
 
 class App extends Component {
   constructor() {
@@ -29,9 +31,10 @@ class App extends Component {
 
   firstHack() {
     this.setState({
-      runSnakePit: false,
-      history: this.state.history.concat({value: 'Game ran out of memory...'})
+      runSnakePit: false
     });
+    let text = {value: 'Game has no memory...'};
+    this.props.onAddHistory(text);
     clearTimeout(this.timer);
     this.timer = null;
   }
@@ -40,26 +43,21 @@ class App extends Component {
     if (!this.state.runSnakePit) {
       this.timer = null;
       clearTimeout(this.timer);
-      console.log(this.timer);
     }
   }
 
-  componentDidMount() {
-    this.setState({
-      history: [
-        { value: 'Logging In...' },
-        { value: 'Successful...' },
-        { value: 'type `help` to see commands.'},
-      ]
-    });
-  };
-
   render() {
-    const { runSnakePit, history } = this.state;
+    const { runSnakePit } = this.state;
+    const { terminal } = this.props;
 
     return (
       <div className="App" id="terminal-mount">
-        <Terminal prefix={'user2404712@home'} history={history} theme={'dark'} bash={this.bash} inputDisabled={runSnakePit}>
+        <Terminal prefix={'user2404712@home'}
+          terminal={terminal}
+          theme={'dark'}
+          bash={this.bash}
+          onUpdateState={(state) => this.props.onUpdateState(state)}
+          inputDisabled={runSnakePit}>
           {(runSnakePit) ? <SnakePitWrapper /> : null}
         </ Terminal>
       </div>
@@ -67,4 +65,21 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    terminal: state.terminal
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUpdateState: (state) => {
+      dispatch(updateState(state))
+    },
+    onAddHistory: (text) => {
+      dispatch(addHistory(text))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

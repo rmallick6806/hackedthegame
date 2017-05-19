@@ -4,18 +4,6 @@ import Snake from './entities/snake';
 import Food from './entities/food';
 import Board from './entities/board';
 
-// const p1Btn = document.getElementById('p1');
-// const p2Btn = document.getElementById('p2');
-// // Create the canvas
-// const canvas = document.getElementById('snakePit');
-// const ctx = canvas.getContext("2d");
-//
-// canvas.height = 400;
-// canvas.width = 400;
-
-
-// export const SnakePit = {};
-
 class SnakePit {
   constructor() {
     this.canvas = document.getElementById('snakePit');
@@ -140,4 +128,3 @@ class SnakePit {
 }
 
 export default SnakePit;
-// SnakePit.game().init();
