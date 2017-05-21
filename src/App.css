@@ -27,6 +27,10 @@ canvas {
   margin-top: 20px;
 }
 
+.error-type {
+  color: red;
+}
+
 #snakePit {
   margin: 10px;
 }
