@@ -18,15 +18,12 @@ class App extends Component {
       snakePitRuns: 0,
       runSnakePit: false
     };
-    this.timer = null;
 
     const parentCommands = {
       runSnakePit: () => {
         let time = (randomNumberWithMinimum(0) * 10000) + 15000;
         let snakePitRuns = this.state.snakePitRuns
-        clearTimeout(this.timer);
-        this.timer = null;
-        this.timer = setTimeout(() => this.errorInSnakePitGame(), time);
+        _.delay(() => this.errorInSnakePitGame(), time);
         this.setState({runSnakePit: true, snakePitRuns: snakePitRuns + 1 });
       }
     };
@@ -39,9 +36,6 @@ class App extends Component {
   }
 
   errorInSnakePitGame() {
-    clearTimeout(this.timer);
-    this.timer = null;
-
     let snakePitRuns = this.state.snakePitRuns;
     if (snakePitRuns <= 2) {
       this.setState({runSnakePit: false});
@@ -50,13 +44,6 @@ class App extends Component {
     }
     if (snakePitRuns > 3) {
       return ;
-    }
-  }
-
-  componentDidUpdate() {
-    if (!this.state.runSnakePit) {
-      this.timer = null;
-      clearTimeout(this.timer);
     }
   }
 
