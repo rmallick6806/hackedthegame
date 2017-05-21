@@ -11,6 +11,11 @@ import { randomNumberWithMinimum } from './utils.js';
 import errors from './errors.js';
 import _ from 'lodash';
 
+const DURATION_CONFIG = {
+  firstHack: 15000,
+  firstMessage: 3000
+};
+
 class App extends Component {
   constructor() {
     super();
@@ -21,7 +26,7 @@ class App extends Component {
 
     const parentCommands = {
       runSnakePit: () => {
-        let time = (randomNumberWithMinimum(0) * 10000) + 15000;
+        let time = (randomNumberWithMinimum(0) * 10000) + DURATION_CONFIG.firstHack;
         let snakePitRuns = this.state.snakePitRuns
         _.delay(() => this.errorInSnakePitGame(), time);
         this.setState({runSnakePit: true, snakePitRuns: snakePitRuns + 1 });
@@ -29,6 +34,13 @@ class App extends Component {
     };
 
     this.bash = new Bash({}, parentCommands);
+  }
+
+  componentDidUpdate() {
+    if (!this.state.runSnakePit) {
+      this.timer = null;
+      clearTimeout(this.timer);
+    }
   }
 
   updateCommandsBatch(commands) {
@@ -40,7 +52,7 @@ class App extends Component {
     if (snakePitRuns <= 2) {
       this.setState({runSnakePit: false});
       this.props.onAddHistory(errors['firstHack']);
-      _.delay(() => {this.props.onAddHistory(errors['firstMessage'])}, 3500);
+      _.delay(() => {this.props.onAddHistory(errors['firstMessage'])}, DURATION_CONFIG.firstMessage);
     }
     if (snakePitRuns > 3) {
       return ;
