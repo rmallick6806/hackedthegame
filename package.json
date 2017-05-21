@@ -2,6 +2,7 @@
   "name": "hackedgame",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://rmallick6806.github.io/hackedthegame",
   "dependencies": {
     "fast-list": "^1.0.3",
     "lodash": "^4.17.4",
@@ -11,12 +12,14 @@
     "redux": "^3.6.0"
   },
   "devDependencies": {
+    "gh-pages": "^1.0.0",
     "react-scripts": "0.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   }
 }
