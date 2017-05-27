@@ -31,6 +31,10 @@ canvas {
   color: red;
 }
 
+.hacker-response-type {
+  color: #07dc07;
+}
+
 #snakePit {
   margin: 10px;
 }

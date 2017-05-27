@@ -11,3 +11,17 @@ export const updateState = (state) => {
     state
   }
 }
+
+export const addChatHistory = (text) => {
+  return {
+    type: 'ADD_CHAT_HISTORY',
+    text
+  }
+}
+
+export const updateChatState = (state) => {
+  return {
+    type: 'UPDATE_CHAT_STATE',
+    state
+  }
+}

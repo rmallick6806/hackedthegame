@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
-import terminal from './terminal'
+import terminal from './terminal';
+import bashChat from './bashChat';
 
 const gameApp = combineReducers({
-  terminal
+  terminal,
+  bashChat
 });
 
 export default gameApp

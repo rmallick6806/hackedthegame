@@ -14,6 +14,7 @@ class SnakePitWrapper extends Component {
       this.setState({finishedLoading: true})
       clearTimeout(this.timeout);
     }, 1000);
+    this.refs.snakePitCanvas.scrollIntoView();
   }
 
   render() {
@@ -21,7 +22,7 @@ class SnakePitWrapper extends Component {
       <div className="snake-pit-wrapper">
         <div className='green-bar'> Loading Game... </div>
         <div className='green-bar'> {(this.state.finishedLoading) ? 'Finished loading...': null}</div>
-        <canvas id='snakePit'></canvas>
+        <canvas id='snakePit' ref ='snakePitCanvas'></canvas>
         <div className='green-bar'> Press 'Space' to restart...</div>
         <div className='green-bar'/>
       </div>
