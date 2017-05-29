@@ -4,9 +4,8 @@ import './App.css';
 import Terminal from './terminal/src';
 import Bash from './terminal/src/bash.js';
 import * as ChatCommands from './terminal/src/chatCommands.js';
-import * as OldCommands from './terminal/src/commands.js';
 import SnakePitWrapper from './components/snakePitWrapper.js';
-import { addHistory, updateState, addChatHistory, updateChatState } from './actions';
+import { addHistory, updateState, addChatHistory, updateChatState, updateDeliveredMessages } from './actions';
 import { randomNumberWithMinimum } from './utils.js';
 import errors from './errors.js';
 import chatMessages from './chatMessages.js';
@@ -18,7 +17,8 @@ const DURATION_CONFIG = {
   logOnToChat: 1,
   logOnToChatSuccess: 2000,
   firstChatMessage: 3500,
-  regularResponse: 5000
+  regularResponse: 5000,
+  staggeredResponse: 3000
 };
 
 class App extends Component {
@@ -43,7 +43,25 @@ class App extends Component {
         _.delay(() => {this.props.onAddChatHistory(chatMessages['first'])}, DURATION_CONFIG.firstChatMessage);
       },
       chatResponse: (value) => {
-        _.delay(() => {this.props.onAddChatHistory(chatMessages[value])}, DURATION_CONFIG.regularResponse);
+        let response = chatMessages[value];
+        if (response.staggered) {
+          let staggeredFunc = new Promise((resolve, reject) => {
+            _.forEach(response.staggered, (message, idx) => {
+              _.delay(() => {
+                this.props.onAddChatHistory(message)
+                if (idx === response.staggered.length - 1) {
+                  resolve('Fire On Update Delivered Messages');
+                }
+              }, DURATION_CONFIG.staggeredResponse + (idx * 2000));
+            });
+          });
+          staggeredFunc.then(() => this.props.onUpdateDeliveredMessages(value));
+        } else {
+          _.delay(() => {
+            this.props.onAddChatHistory(chatMessages[value])
+            this.props.onUpdateDeliveredMessages(value)
+          }, DURATION_CONFIG.regularResponse);
+        }
       }
     };
 
@@ -130,6 +148,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onAddChatHistory: (text) => {
       dispatch(addChatHistory(text))
+    },
+    onUpdateDeliveredMessages: (msg) => {
+      dispatch(updateDeliveredMessages(msg))
     }
   }
 }

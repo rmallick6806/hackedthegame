@@ -12,9 +12,16 @@ var chatMessages = {
     type: 'hacker-response'
   },
   whoAreYou: {
-    value: "What? You know who I am.. It's l0XEn, idiot. Look I don't have a lot of time. And they are starting to watch me closely..",
+    staggered: [
+      {value: 'What?? You know who I am...', type: 'hacker-response'},
+      {value: 'Look I don\'t have a lot of time. They are starting to watch me closely..', type: 'hacker-response'},
+    ]
+  },
+  confusedResponse: {
+    value: 'What? You\'re not making any sense',
     type: 'hacker-response'
   }
+
 };
 
 export default chatMessages;

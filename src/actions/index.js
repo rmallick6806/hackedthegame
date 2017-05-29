@@ -25,3 +25,10 @@ export const updateChatState = (state) => {
     state
   }
 }
+
+export const updateDeliveredMessages = (message) => {
+  return {
+    type: 'UPDATE_DELIVERED_MESSAGES',
+    message
+  }
+}
