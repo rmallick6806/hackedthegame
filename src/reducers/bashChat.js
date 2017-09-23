@@ -19,7 +19,6 @@ const bashChat = (state = initialState, action) => {
       break;
     case 'UPDATE_DELIVERED_MESSAGES':
       let value = (state.deliveredMessages[action.message] !== undefined) ? state.deliveredMessages[action.message] + 1 : 1;
-      console.log(action.message, value, state.deliveredMessages);
       return {
         ...state,
         deliveredMessages: {

@@ -8,13 +8,19 @@ var chatMessages = {
     { value: 'type `quit` to return to terminal.'},
   ],
   first: {
-    value: 'Thank god, finally. Where the fuck have you been?',
+    value: 'Thank god, finally. Look, I need your help..',
     type: 'hacker-response'
   },
   whoAreYou: {
     staggered: [
       {value: 'What?? You know who I am...', type: 'hacker-response'},
       {value: 'Look I don\'t have a lot of time. They are starting to watch me closely..', type: 'hacker-response'},
+    ]
+  },
+  whatDoYouMean: {
+    staggered: [
+      {value: 'Hm, alright, lemme explain real quick', type: 'hacker-response'},
+      {value: 'I got into trouble with some bad people', type: 'hacker-response'},
     ]
   },
   confusedResponse: {
