@@ -1,5 +1,6 @@
 const initialState = {
   settings: { user: { username: 'home' } },
+  gameScore: 0,
   history: [
     { value: 'Logging In...' },
     { value: 'Successful...' },
@@ -15,6 +16,12 @@ const terminal = (state = initialState, action) => {
       return {
         ...state,
         history: state.history.concat(action.text)
+      }
+      break;
+      case 'UPDATE_GAME_SCORE':
+      return {
+        ...state,
+        gameScore: action.gameScore++
       }
       break;
     case 'UPDATE_STATE':

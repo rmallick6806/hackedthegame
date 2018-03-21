@@ -5,11 +5,12 @@ import Terminal from './terminal/src';
 import Bash from './terminal/src/bash.js';
 import * as ChatCommands from './terminal/src/chatCommands.js';
 import SnakePitWrapper from './components/snakePitWrapper.js';
-import { addHistory, updateState, addChatHistory, updateChatState, updateDeliveredMessages } from './actions';
+import { addHistory, updateState, addChatHistory, incrementGameScore, updateChatState, updateDeliveredMessages } from './actions';
 import { randomNumberWithMinimum } from './utils.js';
 import errors from './errors.js';
 import chatMessages from './chatMessages.js';
 import _ from 'lodash';
+
 
 const DURATION_CONFIG = {
   firstHack: 15000,
@@ -108,6 +109,9 @@ class App extends Component {
             onUpdateState={(state) => this.props.onUpdateChatState(state)}
             startBashChat={startBashChat}>
           </ Terminal>
+          <div>
+            {this.props.terminal.gameScore}
+          </div>
         </div>
       );
     };
@@ -142,6 +146,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateChatState: (state) => {
       dispatch(updateChatState(state))
+      dispatch(incrementGameScore(state.gameScore))
     },
     onAddHistory: (text) => {
       dispatch(addHistory(text))
