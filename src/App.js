@@ -127,6 +127,9 @@ class App extends Component {
           inputDisabled={runSnakePit}>
           {(runSnakePit) ? <SnakePitWrapper /> : null}
         </ Terminal>
+        <div>
+            {this.props.terminal.gameScore}
+          </div>
       </div>
     );
   }
@@ -143,10 +146,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateState: (state) => {
       dispatch(updateState(state))
+      dispatch(incrementGameScore(state))
     },
     onUpdateChatState: (state) => {
       dispatch(updateChatState(state))
-      dispatch(incrementGameScore(state.gameScore))
     },
     onAddHistory: (text) => {
       dispatch(addHistory(text))

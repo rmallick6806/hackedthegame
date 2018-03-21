@@ -19,9 +19,10 @@ const terminal = (state = initialState, action) => {
       }
       break;
       case 'UPDATE_GAME_SCORE':
+      console.log(action.state, state)
       return {
         ...state,
-        gameScore: action.gameScore++
+        gameScore: state.gameScore+1
       }
       break;
     case 'UPDATE_STATE':

@@ -19,10 +19,10 @@ export const addChatHistory = (text) => {
   }
 }
 
-export const incrementGameScore = (gameScore) => {
+export const incrementGameScore = (state) => {
   return {
     type: 'UPDATE_GAME_SCORE',
-    gameScore
+    state
   }
 }
 
