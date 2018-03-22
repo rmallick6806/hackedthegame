@@ -60,7 +60,11 @@ class App extends Component {
     const { runSnakePit, startBashChat } = this.state;
     const { terminal, bashChat } = this.props;
 
-    // Bash Chat is the view where the user is chatting with the 'hacker' //
+    /*
+    * Bash Chat is the view where the user is chatting with the 'hacker'
+    * It uses the terminal component with slight style and logic tweaks
+    */
+     
     if (startBashChat) {
       return (
         <div className="App" id="terminalMount">
