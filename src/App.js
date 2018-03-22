@@ -4,13 +4,11 @@ import './App.css';
 import Terminal from './terminal/src';
 import Bash from './terminal/src/bash.js';
 import * as ChatCommands from './terminal/src/chatCommands.js';
+import parentCommands from './parentCommands';
 import SnakePitWrapper from './components/snakePitWrapper.js';
 import { addHistory, updateState, addChatHistory, incrementGameScore, updateChatState, updateDeliveredMessages } from './actions';
-import { randomNumberWithMinimum } from './utils.js';
 import errors from './errors.js';
-import chatMessages from './chatMessages.js';
 import _ from 'lodash';
-
 
 const DURATION_CONFIG = {
   firstHack: 15000,
@@ -23,51 +21,15 @@ const DURATION_CONFIG = {
 };
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       snakePitRuns: 0,
       runSnakePit: false
     };
 
-    const parentCommands = {
-      runSnakePit: () => {
-        let time = (randomNumberWithMinimum(0) * 10000) + DURATION_CONFIG.firstHack;
-        let snakePitRuns = this.state.snakePitRuns
-        _.delay(() => this.errorInSnakePitGame(), time);
-        this.setState({runSnakePit: true, snakePitRuns: snakePitRuns + 1 });
-      },
-      startBashChat: () => {
-        this.setState({startBashChat: true});
-        _.delay(() => {this.props.onAddChatHistory(chatMessages['logOn'])}, DURATION_CONFIG.logOnToChat);
-        _.delay(() => {this.props.onAddChatHistory(chatMessages['logOnSuccess'])}, DURATION_CONFIG.logOnToChatSuccess);
-        _.delay(() => {this.props.onAddChatHistory(chatMessages['first'])}, DURATION_CONFIG.firstChatMessage);
-      },
-      chatResponse: (value) => {
-        let response = chatMessages[value];
-        if (response.staggered) {
-          let staggeredFunc = new Promise((resolve, reject) => {
-            _.forEach(response.staggered, (message, idx) => {
-              _.delay(() => {
-                this.props.onAddChatHistory(message)
-                if (idx === response.staggered.length - 1) {
-                  resolve('Fire On Update Delivered Messages');
-                }
-              }, DURATION_CONFIG.staggeredResponse + (idx * 2000));
-            });
-          });
-          staggeredFunc.then(() => this.props.onUpdateDeliveredMessages(value));
-        } else {
-          _.delay(() => {
-            this.props.onAddChatHistory(chatMessages[value])
-            this.props.onUpdateDeliveredMessages(value)
-          }, DURATION_CONFIG.regularResponse);
-        }
-      }
-    };
-
-    this.bash = new Bash({}, parentCommands);
-    this.bashChat = new Bash({}, parentCommands, ChatCommands, true);
+    this.bash = new Bash({}, parentCommands(this, DURATION_CONFIG));
+    this.bashChat = new Bash({}, parentCommands(this, DURATION_CONFIG), ChatCommands, true);
     this.errorInSnakePitGame = this.errorInSnakePitGame.bind(this);
   }
 
@@ -98,6 +60,7 @@ class App extends Component {
     const { runSnakePit, startBashChat } = this.state;
     const { terminal, bashChat } = this.props;
 
+    // Bash Chat is the view where the user is chatting with the 'hacker' //
     if (startBashChat) {
       return (
         <div className="App" id="terminalMount">
@@ -109,9 +72,7 @@ class App extends Component {
             onUpdateState={(state) => this.props.onUpdateChatState(state)}
             startBashChat={startBashChat}>
           </ Terminal>
-          <div>
-            {this.props.terminal.gameScore}
-          </div>
+          <div>{this.props.terminal.gameScore}</div>
         </div>
       );
     };
@@ -127,6 +88,7 @@ class App extends Component {
           inputDisabled={runSnakePit}>
           {(runSnakePit) ? <SnakePitWrapper /> : null}
         </ Terminal>
+        <div>{this.props.terminal.gameScore}</div>
       </div>
     );
   }
@@ -143,10 +105,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateState: (state) => {
       dispatch(updateState(state))
+      dispatch(incrementGameScore())
     },
     onUpdateChatState: (state) => {
       dispatch(updateChatState(state))
-      dispatch(incrementGameScore(state.gameScore))
     },
     onAddHistory: (text) => {
       dispatch(addHistory(text))
