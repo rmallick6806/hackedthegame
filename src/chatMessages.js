@@ -21,11 +21,18 @@ var chatMessages = {
     staggered: [
       {value: 'Hm, alright, lemme explain real quick', type: 'hacker-response'},
       {value: 'I got into trouble with some bad people', type: 'hacker-response'},
+      {value: 'They drugged me when they took me. I don\'t know where I am. You need to find my location.', type: 'hacker-response'},
     ]
   },
   confusedResponse: {
     value: 'What? You\'re not making any sense',
     type: 'hacker-response'
+  },
+  correctPingResponse: {
+    staggered: [
+      {value: 'Okay, well, I don\'t think that I was knocked out long enough to get to Siberia... They must be using a VPN or an IP spoofer.', type: 'hacker-response'},
+      {value: 'We will have to think of something else...',type: 'hacker-response'},
+    ]
   }
 
 };
