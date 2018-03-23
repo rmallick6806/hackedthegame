@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './App.css';
 import Terminal from './terminal/src';
 import Bash from './terminal/src/bash.js';
-import * as ChatCommands from './terminal/src/chatCommands.js';
+import * as ChatCommands from './chatCommands.js';
 import parentCommands from './parentCommands';
 import SnakePitWrapper from './components/snakePitWrapper.js';
 import { addHistory, updateState, addChatHistory, incrementGameScore, updateChatState, updateDeliveredMessages } from './actions';
