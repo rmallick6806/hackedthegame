@@ -64,7 +64,7 @@ class App extends Component {
     * Bash Chat is the view where the user is chatting with the 'hacker'
     * It uses the terminal component with slight style and logic tweaks
     */
-     
+
     if (startBashChat) {
       return (
         <div className="App" id="terminalMount">
@@ -92,13 +92,7 @@ class App extends Component {
           inputDisabled={runSnakePit}>
           {(runSnakePit) ? <SnakePitWrapper /> : null}
         </ Terminal>
-<<<<<<< HEAD
-        <div>
-            {this.props.terminal.gameScore}
-          </div>
-=======
         <div>{this.props.terminal.gameScore}</div>
->>>>>>> a408ef40cf50c9c0ac80879cf84248a2a79e4281
       </div>
     );
   }
@@ -115,11 +109,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateState: (state) => {
       dispatch(updateState(state))
-<<<<<<< HEAD
-      dispatch(incrementGameScore(state))
-=======
       dispatch(incrementGameScore())
->>>>>>> a408ef40cf50c9c0ac80879cf84248a2a79e4281
     },
     onUpdateChatState: (state) => {
       dispatch(updateChatState(state))
