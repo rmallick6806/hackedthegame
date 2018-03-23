@@ -22,7 +22,11 @@ const terminal = (state = initialState, action) => {
       console.log(action.state, state)
       return {
         ...state,
+<<<<<<< HEAD
         gameScore: state.gameScore+1
+=======
+        gameScore: state.gameScore + 1
+>>>>>>> a408ef40cf50c9c0ac80879cf84248a2a79e4281
       }
       break;
     case 'UPDATE_STATE':
